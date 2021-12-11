@@ -1,4 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `postSql`
 DROP TABLE IF EXISTS  Facture;
 DROP TABLE IF EXISTS Contrat;
 DROP TABLE IF EXISTS  Vehicule;
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Categorie(
 CREATE TABLE IF NOT EXISTS Modele(
     idModele SERIAL,
     determinations VARCHAR,
-    puissanceFiscale VARCHAR,
+    puissanceFiscale INT,
     CONSTRAINT pkModele PRIMARY KEY (idModele)
 );
 
@@ -71,12 +70,12 @@ CREATE TABLE IF NOT EXISTS Vehicule (
     idCategorie INT,
     idType INT,
     idAgence INT,
-    CONSTRAINT pkMarque PRIMARY KEY (immatriculation),
-    CONSTRAINT marque_ibfk_1 FOREIGN KEY (idMarque) REFERENCES Marque (idMarque),
-    CONSTRAINT marque_ibfk_2 FOREIGN KEY (idModele) REFERENCES Modele (idModele),
-    CONSTRAINT marque_ibfk_3 FOREIGN KEY (idCategorie) REFERENCES Categorie (idCategorie),
-    CONSTRAINT marque_ibf_4 FOREIGN KEY (idType) REFERENCES Types (idType),
-    CONSTRAINT marque_ibf_5 FOREIGN KEY (idAgence) REFERENCES Agence (idAgence)
+    CONSTRAINT pkVehicule PRIMARY KEY (immatriculation),
+    CONSTRAINT vehicule_ibfk_1 FOREIGN KEY (idMarque) REFERENCES Marque (idMarque),
+    CONSTRAINT vehicule_ibfk_2 FOREIGN KEY (idModele) REFERENCES Modele (idModele),
+    CONSTRAINT vehicule_ibfk_3 FOREIGN KEY (idCategorie) REFERENCES Categorie (idCategorie),
+    CONSTRAINT vehicule_ibfk_4 FOREIGN KEY (idType) REFERENCES Types (idType),
+    CONSTRAINT vehicule_ibfk_5 FOREIGN KEY (idAgence) REFERENCES Agence (idAgence)
 );
 
 CREATE TABLE IF NOT EXISTS Contrat(
@@ -97,6 +96,6 @@ CREATE TABLE IF NOT EXISTS Facture (
     idFacture SERIAL,
     montant NUMERIC(10,2),
     idContrat INT,
-    CONSTRAINT pkFacture PRIMARY KEY (idFactature),
+    CONSTRAINT pkFacture PRIMARY KEY (idFacture),
     CONSTRAINT facture_ibfk_1 FOREIGN KEY (idContrat) REFERENCES Contrat (idContrat)
 );
