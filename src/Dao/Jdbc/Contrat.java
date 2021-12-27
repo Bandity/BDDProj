@@ -3,12 +3,26 @@ package Dao.Jdbc;
 import Dao.DaoException;
 import Model.Entity;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.util.Collection;
+import java.util.Date;
 
 public class Contrat extends JdbcDao{
     public Contrat(Connection connection) {
         super(connection);
+    }
+    public Entity locationDeVoitureClient(int id, Date date) throws  DaoException{
+        Contrat contrat = null;
+        String sqlReq = "SELECT * FROM contrat";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            //statement.setInt(1, id);
+            ResultSet resultSet;
+        }catch (SQLException e ){
+            throw new DaoException(e);
+        }
+        return null;
     }
 
     @Override

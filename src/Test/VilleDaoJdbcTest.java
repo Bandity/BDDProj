@@ -1,5 +1,7 @@
 package Test;
 
+import Connections.Jdbc.PostgresConnection;
+
 import java.sql.Connection;
 
 public class VilleDaoJdbcTest {
@@ -13,4 +15,16 @@ public class VilleDaoJdbcTest {
 
     }
 
+    public void updateTest(Connection connection){
+
+    }
+
+    public static void main(String[] args) {
+        Connection connection = PostgresConnection.getInstance();
+        new VilleDaoJdbcTest().findAllTest(connection);/*
+        new VilleDaoJdbcTest().creatTest(connection);
+        new VilleDaoJdbcTest().updateTest(connection);
+        new VilleDaoJdbcTest().deleteTest(connection);*/
+
+    }
 }

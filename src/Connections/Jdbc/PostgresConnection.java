@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class PostgresConnection {
 
     private static String serveur = "localhost";
-    private static String baseName = "postsql";
+    private static String baseName = "bdd";
     private static String user = "bandity";
     private static String password = "bandityf1F!";
 

@@ -1,6 +1,6 @@
 package Model;
 
-public class Types {
+public class Types extends  Entity{
 
     private int id;
     private String libelle;

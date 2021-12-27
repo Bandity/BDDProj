@@ -1,6 +1,6 @@
 package Model;
 
-public class Client {
+public class Client extends  Entity{
     private int id;
     private String nom;
     private String address;

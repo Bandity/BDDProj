@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-public class Vehicule {
+public class Vehicule extends  Entity{
     private String immatriculation;
     private Date miseEnCirculation;
     private String etat;

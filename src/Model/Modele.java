@@ -1,6 +1,6 @@
 package Model;
 
-public class Modele {
+public class Modele extends  Entity{
 
     private int id;
     private String determinations;

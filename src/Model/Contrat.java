@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-public class Contrat {
+public class Contrat extends  Entity{
     private int id;
     private Date dateDeRetrait;
     private Date dateDeRetour;

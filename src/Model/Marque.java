@@ -1,6 +1,6 @@
 package Model;
 
-public class Marque {
+public class Marque extends  Entity{
     private int id;
     private String nom;
 

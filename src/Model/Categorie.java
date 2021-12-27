@@ -1,6 +1,6 @@
 package Model;
 
-public class Categorie {
+public class Categorie extends  Entity{
     private int id;
     private String libelle;
 

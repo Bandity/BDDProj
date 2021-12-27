@@ -1,6 +1,6 @@
 package Model;
 
-public class Facture {
+public class Facture extends  Entity{
     private int id;
     private float montant;
     private Client client;
