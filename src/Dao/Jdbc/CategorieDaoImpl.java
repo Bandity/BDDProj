@@ -15,7 +15,7 @@ public class CategorieDaoImpl extends JdbcDao{
     }
     @Override
     public Collection<Entity> findAll() throws DaoException {
-        Collection<Entity> agences = new ArrayList<>();
+        Collection<Entity> categories = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Categorie");
@@ -23,12 +23,12 @@ public class CategorieDaoImpl extends JdbcDao{
                 Categorie categorie = new Categorie();
                 categorie.setId(resultSet.getInt("idCategorie"));
                 categorie.setLibelle(resultSet.getString("libelleCategorie"));
-                agences.add(categorie);
+                categories.add(categorie);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return agences;
+        return categories;
     }
 
     @Override

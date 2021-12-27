@@ -50,7 +50,7 @@ public class CategorieDaoJdbcTest {
         }
     }
 
-    public void allAgenceTests(Connection connection){
+    public void allCategoriesTests(Connection connection){
         new CategorieDaoJdbcTest().findAllTest(connection);
         new CategorieDaoJdbcTest().creatTest(connection, 310, "SWAT");
         new CategorieDaoJdbcTest().updateTest(connection,310, "IDK");
@@ -59,6 +59,6 @@ public class CategorieDaoJdbcTest {
 
     public static void main(String[] args) {
         Connection connection = PostgresConnection.getInstance();
-        new CategorieDaoJdbcTest().allAgenceTests(connection);
+        new CategorieDaoJdbcTest().allCategoriesTests(connection);
     }
 }
