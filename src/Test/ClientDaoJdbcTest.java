@@ -14,9 +14,9 @@ import java.util.Collection;
 public class ClientDaoJdbcTest {
     public void findAllTest(Connection connection){
         try {
-            Collection<Entity> categories;
-            categories =new ClientDaoImpl(connection).findAll();
-            for (Entity e: categories) {
+            Collection<Entity> clients;
+            clients =new ClientDaoImpl(connection).findAll();
+            for (Entity e: clients) {
                 Client client = (Client) e;
                 System.out.println( client.getId() + " | Name : " + client.getNom()+ " | Address : " + client.getAddress() + " | Zip Code : " + " | Ville Name : " + client.getVille().getNom()+" |");
             }

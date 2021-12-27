@@ -1,7 +1,6 @@
 package Dao.Jdbc;
 
 import Dao.DaoException;
-import Model.Agence;
 import Model.Client;
 import Model.Entity;
 import Model.Ville;
