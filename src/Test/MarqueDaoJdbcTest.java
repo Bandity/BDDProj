@@ -15,9 +15,9 @@ public class MarqueDaoJdbcTest {
 
     public void findAllTest(Connection connection){
         try {
-            Collection<Entity> factures;
-            factures =new MarqueDaoImpl(connection).findAll();
-            for (Entity e: factures) {
+            Collection<Entity> marques;
+            marques =new MarqueDaoImpl(connection).findAll();
+            for (Entity e: marques) {
                 Marque marque = (Marque) e;
                 System.out.println(marque.getId() + " | Name : " + marque.getNom()+ " |");
             }
