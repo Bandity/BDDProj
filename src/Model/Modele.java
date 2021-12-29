@@ -4,15 +4,15 @@ public class Modele extends  Entity{
 
     private int id;
     private String determinations;
-    private int puissaceFiscale;
+    private int puissanceFiscale;
 
     public Modele(){
         this(0,null,0);
     }
-    public Modele(int id, String determinations, int puissaceFiscale){
+    public Modele(int id, String determinations, int puissanceFiscale){
         this.id = id;
         this.determinations = determinations;
-        this.puissaceFiscale = puissaceFiscale;
+        this.puissanceFiscale = puissanceFiscale;
     }
 
     public int getId() {
@@ -31,11 +31,11 @@ public class Modele extends  Entity{
         this.determinations = determinations;
     }
 
-    public int getPuissaceFiscale() {
-        return puissaceFiscale;
+    public int getPuissanceFiscale() {
+        return puissanceFiscale;
     }
 
-    public void setPuissaceFiscale(int puissaceFiscale) {
-        this.puissaceFiscale = puissaceFiscale;
+    public void setPuissacenFiscale(int puissanceFiscale) {
+        this.puissanceFiscale = puissanceFiscale;
     }
 }
