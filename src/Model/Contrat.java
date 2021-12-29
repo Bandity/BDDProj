@@ -35,21 +35,6 @@ public class Contrat extends  Entity{
         this.id = id;
     }
 
-    public Date getDateDeRetrait() {
-        return dateDeRetrait;
-    }
-
-    public void setDateDeRetrait(Date dateDeRetrait) {
-        this.dateDeRetrait = dateDeRetrait;
-    }
-
-    public Date getDateDeRetour() {
-        return dateDeRetour;
-    }
-
-    public void setDateDeRetour(Date dateDeRetour) {
-        this.dateDeRetour = dateDeRetour;
-    }
 
     public float getKmRetrait() {
         return kmRetrait;
@@ -90,4 +75,21 @@ public class Contrat extends  Entity{
     public void setAgence(Agence agence) {
         this.agence = agence;
     }
+
+    public Date getDateDeRetrait() {
+        return dateDeRetrait;
+    }
+
+    public void setDateDeRetrait(java.sql.Date dateDeRetrait) {
+        this.dateDeRetrait = dateDeRetrait;
+    }
+
+    public Date getDateDeRetour() {
+        return dateDeRetour;
+    }
+
+    public void setDateDeRetour(java.sql.Date dateDeRetour) {
+        this.dateDeRetour = dateDeRetour;
+    }
+
 }

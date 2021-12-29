@@ -207,11 +207,6 @@ insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient,
 insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ('2019-05-19', '2015-06-23', 244448.84, 304.46, 6, '167-57-4475', 7);
 insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ('2021-04-08', '2007-08-12', 68667.0, 70909.59, 6, '468-62-2043', 5);
 insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ('2007-02-23', '2006-04-26', 176704.99, 138399.88, 6, '397-73-5066', 3);
-insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ( null, null, 382337, 41583, null, null, null);
-insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ( null, null, 1232337, 41583, null, null, null);
-insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ( null, null, 7337, 41583, null, null, null);
-insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ( null, null,82337, 41583, null, null, null);
-insert into Contrat (dateDeRetrait, dateDeRetour, kmRetrait, kmRetour, idClient, immatriculation, idAgence) values ( null, null, 337, 41583, null, null, null);
 
 insert into Facture (montant, idContrat) values (65987.72, 18);
 insert into Facture (montant, idContrat) values (25908.78, 11);
