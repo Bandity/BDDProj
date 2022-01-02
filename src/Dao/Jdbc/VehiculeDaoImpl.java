@@ -2,11 +2,10 @@ package Dao.Jdbc;
 
 import Dao.DaoException;
 import Model.*;
+import Model.Types;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class VehiculeDaoImpl extends JdbcDao{
@@ -41,7 +40,33 @@ public class VehiculeDaoImpl extends JdbcDao{
 
     @Override
     public Collection<Entity> findAll() throws DaoException {
-        return null;
+        Collection<Entity> vehicules = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Vehicule");
+            while (resultSet.next()) {
+                Vehicule vehicule = new Vehicule();
+                vehicule.setImmatriculation(resultSet.getString("immatriculation"));
+                vehicule.setMiseEnCirculation(resultSet.getDate("dateMiseEnCirculation"));
+                vehicule.setEtat(resultSet.getString("etat"));
+                vehicule.setNbKilometres(resultSet.getFloat("nbKilometres"));
+                vehicule.setPrixParJourDeLocation(resultSet.getFloat("prixParJourDeLocation"));
+                Marque marque = (Marque) new MarqueDaoImpl(connection).findById(resultSet.getInt("idMarque"));
+                Modele modele = (Modele) new ModeleDaoImpl(connection).findById(resultSet.getInt("idModele"));
+                Categorie categorie = (Categorie) new CategorieDaoImpl(connection).findById(resultSet.getInt("idCategorie"));
+                Types type = (Types) new TypesDaoImpl(connection).findById(resultSet.getInt("idType"));
+                Agence agence = (Agence) new AgenceDaoImpl(connection).findById(resultSet.getInt("idAgence"));
+                vehicule.setMarque(marque);
+                vehicule.setModele(modele);
+                vehicule.setCategorie(categorie);
+                vehicule.setType(type);
+                vehicule.setAgence(agence);
+                vehicules.add(vehicule);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return vehicules;
     }
 
     @Override
@@ -83,16 +108,89 @@ public class VehiculeDaoImpl extends JdbcDao{
 
     @Override
     public void create(Entity entity) throws DaoException {
-
+        Vehicule vehicule = (Vehicule) entity;
+        PreparedStatement statement = null;
+        String sqlReq = "insert into Vehicule(immatriculation, dateMiseEnCirculation, etat, nbKilometres, prixParJourDeLocation, idMarque, idModele, idCategorie, idType, idAgence) values (?, ?,?,?,?,?,?,?,?,?)";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setString(1, vehicule.getImmatriculation());
+            statement.setDate(2,   new java.sql.Date(vehicule.getMiseEnCirculation().getTime()));
+            statement.setString(3,  vehicule.getEtat());
+            statement.setFloat(4, vehicule.getNbKilometres());
+            statement.setFloat(5, vehicule.getPrixParJourDeLocation());
+            statement.setInt(6, vehicule.getMarque().getId());
+            statement.setInt(7, vehicule.getModele().getId());
+            statement.setInt(8, vehicule.getCategorie().getId());
+            statement.setInt(9, vehicule.getType().getId());
+            statement.setInt(10, vehicule.getAgence().getId());
+            int res = statement.executeUpdate();
+            System.out.println("");
+            System.out.println("Created");
+            System.out.println(vehicule.getImmatriculation() + " | Date Mise En Circulation : "+ new java.sql.Date(vehicule.getMiseEnCirculation().getTime()) + " | État : "+vehicule.getEtat()+" | Kilometres : " + vehicule.getNbKilometres()+ " | Prix Par Jour De Location : "+vehicule.getPrixParJourDeLocation() +" | Marque ID : " + vehicule.getMarque().getId() + " | Modele ID : " + vehicule.getModele().getId() + " | Categorie ID : "+vehicule.getCategorie().getId()+" | Type ID : " + vehicule.getType().getId() + " | Agence ID : " + vehicule.getAgence().getId() +" |");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
     public void update(Entity entity) throws DaoException {
-
+        Vehicule vehicule = (Vehicule) entity;
+        PreparedStatement statement = null;
+        String sqlReq = "update Vehicule set dateMiseEnCirculation =?, etat=?, nbKilometres=?, prixParJourDeLocation=?, idMarque=?, idModele=?, idCategorie=?, idType=?, idAgence=? WHERE immatriculation = ?";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setDate(1,   new java.sql.Date(vehicule.getMiseEnCirculation().getTime()));
+            statement.setString(2,  vehicule.getEtat());
+            statement.setFloat(3, vehicule.getNbKilometres());
+            statement.setFloat(4, vehicule.getPrixParJourDeLocation());
+            statement.setInt(5, vehicule.getMarque().getId());
+            statement.setInt(6, vehicule.getModele().getId());
+            statement.setInt(7, vehicule.getCategorie().getId());
+            statement.setInt(8, vehicule.getType().getId());
+            statement.setInt(9, vehicule.getAgence().getId());
+            statement.setString(10, vehicule.getImmatriculation());
+            int res = statement.executeUpdate();
+            if( res ==1) {
+                System.out.println("");
+                System.out.println("Updated");
+                System.out.println(vehicule.getImmatriculation() + " | Date Mise En Circulation : "+ new java.sql.Date(vehicule.getMiseEnCirculation().getTime()) + " | État : "+vehicule.getEtat()+" | Kilometres : " + vehicule.getNbKilometres()+ " | Prix Par Jour De Location : "+vehicule.getPrixParJourDeLocation() +" | Marque ID : " + vehicule.getMarque().getId() + " | Modele ID : " + vehicule.getModele().getId() + " | Categorie ID : "+vehicule.getCategorie().getId()+" | Type ID : " + vehicule.getType().getId() + " | Agence ID : " + vehicule.getAgence().getId() +" |");
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
     public void delete(Entity entity) throws DaoException {
-
+        Vehicule vehicule = (Vehicule) entity;
+        PreparedStatement statement = null;
+        String sqlReq = "delete from Vehicule where immatriculation = ?";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setString(1, vehicule.getImmatriculation());
+            int res = statement.executeUpdate();
+            System.out.println("");
+            System.out.println("Deleted.... ");
+            System.out.println(vehicule.getImmatriculation() + " | Date Mise En Circulation : "+ new java.sql.Date(vehicule.getMiseEnCirculation().getTime()) + " | État : "+vehicule.getEtat()+" | Kilometres : " + vehicule.getNbKilometres()+ " | Prix Par Jour De Location : "+vehicule.getPrixParJourDeLocation() +" | Marque ID : " + vehicule.getMarque().getId() + " | Modele ID : " + vehicule.getModele().getId() + " | Categorie ID : "+vehicule.getCategorie().getId()+" | Type ID : " + vehicule.getType().getId() + " | Agence ID : " + vehicule.getAgence().getId() +" |");
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
+    public void vehiculesParMarque() throws DaoException{
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT DISTINCT count(*) as NombreVehicules, m.nomMarque FROM Vehicule as v\n" +
+                "INNER JOIN Marque m on v.idMarque = m.idMarque\n" +
+                "GROUP BY m.nomMarque\n" +
+                "ORDER BY NombreVehicules DESC ;\n";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("NombreVehicules")+" | " + resultSet.getString("nomMarque"));
+            }
+        }catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
 }

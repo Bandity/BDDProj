@@ -231,7 +231,16 @@ insert into Facture (montant, idContrat) values (54388.4, 6);
 
 
 
+SELECT DISTINCT a.idAgence, a.idVille, a.nbEmployes, MAX(f.montant) as ChiffreAffairs FROM Contrat as c
+INNER JOIN Agence a on a.idAgence = c.idAgence
+INNER JOIN Facture f on c.idContrat = f.idContrat
+WHERE EXTRACT(MONTH FROM c.datederetrait) = 01 AND a.idAgence =3
+GROUP BY  a.idAgence
+ORDER BY ChiffreAffairs ;
 
-
+SELECT DISTINCT count(*) as NombreVehicules, m.nomMarque FROM Vehicule as v
+INNER JOIN Marque m on v.idMarque = m.idMarque
+GROUP BY m.nomMarque
+ORDER BY NombreVehicules DESC ;
 
 

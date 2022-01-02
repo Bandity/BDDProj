@@ -51,12 +51,29 @@ public class AgenceDaoJdbcTest {
         }
     }
 
+    public void chiffreDAffaires(Connection connection, Entity entity, int mois){
+        if ( mois > 12 || mois <1){
+            System.out.println("Impossible de de faire une selection avec un mois = "+mois);
+            return;
+        }
+        try {
+            System.out.println("");
+            System.out.println("Chiffre d'affaires d'une agence specifique et un mois");
+            new AgenceDaoImpl(connection).chiffreAffaires(entity, mois);
+        } catch (DaoException e){
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void allAgenceTests(Connection connection){
         try {
             new AgenceDaoJdbcTest().findAllTest(connection);
             new AgenceDaoJdbcTest().creatTest(connection, 340, 1000, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().updateTest(connection,340, 100, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().deleteTest(connection, 340);
+            new AgenceDaoJdbcTest().chiffreDAffaires(connection, new AgenceDaoImpl(connection).findById(3),01);
         } catch (DaoException e) {
             e.printStackTrace();
         }

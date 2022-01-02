@@ -118,4 +118,35 @@ public class AgenceDaoImpl extends JdbcDao{
             throw new DaoException(e);
         }
     }
+
+    public void chiffreAffaires(Entity entity, int mois) throws DaoException{
+        Agence agenceRequete = (Agence) entity;
+        Collection<Entity> agences = new ArrayList<>();
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT DISTINCT a.idAgence, a.idVille, a.nbEmployes, MAX(f.montant)as ChiffreAffairs, c.datederetrait FROM Contrat as c\n" +
+                "INNER JOIN Agence a on a.idAgence = c.idAgence\n" +
+                "INNER JOIN Facture f on c.idContrat = f.idContrat\n" +
+                "WHERE EXTRACT(MONTH FROM c.datederetrait) = ? AND a.idAgence =?\n" +
+                "GROUP BY  a.idAgence, c.datederetrait, a.idVille, a.nbEmployes, a.idAgence\n" +
+                "ORDER BY ChiffreAffairs ;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setInt(1,mois);
+            statement.setInt(2,agenceRequete.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+
+                System.out.println("Agence ID : " + resultSet.getInt("idAgence") + " | Nombre Employes " + resultSet.getInt("nbEmployes")+" | Ville ID : " + resultSet.getInt("idVille")+ " | Date de Retrait du Contrat : " + new java.sql.Date(resultSet.getDate("datederetrait").getTime()) +" | Chiffre d'affaires : " + resultSet.getFloat("ChiffreAffairs"));
+                /*
+                Agence agence = new Agence();
+                agence.setId(resultSet.getInt("idAgence"));
+                agence.setNbEmployes(resultSet.getInt("nbEmployes"));
+                Ville ville = (Ville) villeDao.findById(resultSet.getInt("idagence"));
+                agence.setVille(ville);
+                agences.add(agence);*/
+            }
+        }catch (SQLException e ){
+            throw new DaoException(e);
+        }
+    }
 }
