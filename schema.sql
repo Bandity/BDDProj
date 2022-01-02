@@ -250,3 +250,9 @@ INNER JOIN Categorie c on v.idCategorie = c.idCategorie
 GROUP BY c.libelleCategorie
 ORDER BY Chiffre_Affaires DESC;
 
+SELECT t.libelleType, max(f.montant) as Chiffre_Affaires FROM Facture as f
+INNER JOIN Contrat cont on cont.idContrat = f.idContrat
+INNER JOIN Vehicule v on v.immatriculation = cont.immatriculation
+INNER JOIN Types t on v.idType = t.idType
+GROUP BY t.libelleType
+ORDER BY Chiffre_Affaires DESC;

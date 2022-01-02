@@ -2,6 +2,7 @@ package Test;
 
 import Connections.Jdbc.PostgresConnection;
 import Dao.DaoException;
+import Dao.Jdbc.CategorieDaoImpl;
 import Dao.Jdbc.TypesDaoImpl;
 import Model.Entity;
 import Model.Types;
@@ -49,11 +50,23 @@ public class TypesDaoJdbcTest {
         }
     }
 
+    public void chiffreAffairesTest(Connection connection){
+        try {
+            System.out.println("");
+            System.out.println("Chiffre Affaires en Fonction des Types.....");
+            new TypesDaoImpl(connection).chiffreAffaires();
+        }
+        catch (DaoException e){
+            e.printStackTrace();
+        }
+    }
+
     public void allTypesTests(Connection connection){
         new TypesDaoJdbcTest().findAllTest(connection);
         new TypesDaoJdbcTest().creatTest(connection, 312, "Querosene");
         new TypesDaoJdbcTest().updateTest(connection, 312, "Gasoline 98");
         new TypesDaoJdbcTest().deleteTest(connection, 312);
+        new TypesDaoJdbcTest().chiffreAffairesTest(connection);
     }
 
     public static void main(String[] args) {

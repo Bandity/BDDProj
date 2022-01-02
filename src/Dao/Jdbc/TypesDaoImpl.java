@@ -104,4 +104,23 @@ public class TypesDaoImpl extends JdbcDao{
             throw new DaoException(e);
         }
     }
+
+    public void chiffreAffaires() throws DaoException{
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT t.libelleType, max(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
+                "INNER JOIN Contrat cont on cont.idContrat = f.idContrat\n" +
+                "INNER JOIN Vehicule v on v.immatriculation = cont.immatriculation\n" +
+                "INNER JOIN Types t on v.idType = t.idType\n" +
+                "GROUP BY t.libelleType\n" +
+                "ORDER BY Chiffre_Affaires DESC;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("libelleType") + " | Chiffre Affaires : " + resultSet.getFloat("Chiffre_Affaires") + " |");
+            }
+        }catch (SQLException e ){
+            throw new DaoException(e);
+        }
+    }
 }
