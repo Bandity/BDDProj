@@ -51,20 +51,28 @@ public class AgenceDaoJdbcTest {
         }
     }
 
-    public void chiffreDAffaires(Connection connection, Entity entity, int mois){
+    public void chiffreAffairesPourUnMoisTest(Connection connection, Entity entity, int mois){
         if ( mois > 12 || mois <1){
             System.out.println("Impossible de de faire une selection avec un mois = "+mois);
             return;
         }
         try {
             System.out.println("");
-            System.out.println("Chiffre d'affaires d'une agence specifique et un mois");
-            new AgenceDaoImpl(connection).chiffreAffaires(entity, mois);
+            System.out.println("Chiffre d'affaires d'une agence specifique et un mois........");
+            new AgenceDaoImpl(connection).chiffreAffairesPourUnMois(entity, mois);
         } catch (DaoException e){
             e.printStackTrace();
         }
+    }
 
-
+    public void chiffreAffairesTest(Connection connection,int annee){
+        try {
+            System.out.println("");
+            System.out.println("Chiffre d'affaires des agences d'un année specifique......");
+            new AgenceDaoImpl(connection).chiffreAffairesAnnee(annee);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 
     public void allAgenceTests(Connection connection){
@@ -73,7 +81,8 @@ public class AgenceDaoJdbcTest {
             new AgenceDaoJdbcTest().creatTest(connection, 340, 1000, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().updateTest(connection,340, 100, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().deleteTest(connection, 340);
-            new AgenceDaoJdbcTest().chiffreDAffaires(connection, new AgenceDaoImpl(connection).findById(3),01);
+            new AgenceDaoJdbcTest().chiffreAffairesPourUnMoisTest(connection, new AgenceDaoImpl(connection).findById(3),01);
+            new AgenceDaoJdbcTest().chiffreAffairesTest(connection, 2007);
         } catch (DaoException e) {
             e.printStackTrace();
         }
