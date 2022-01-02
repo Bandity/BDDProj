@@ -121,7 +121,7 @@ public class AgenceDaoImpl extends JdbcDao{
 
     public void chiffreAffaires(Entity entity, int mois) throws DaoException{
         Agence agenceRequete = (Agence) entity;
-        Collection<Entity> agences = new ArrayList<>();
+        //Collection<Entity> agences = new ArrayList<>();
         PreparedStatement statement = null;
         String sqlReq = "SELECT DISTINCT a.idAgence, a.idVille, a.nbEmployes, MAX(f.montant)as ChiffreAffairs, c.datederetrait FROM Contrat as c\n" +
                 "INNER JOIN Agence a on a.idAgence = c.idAgence\n" +

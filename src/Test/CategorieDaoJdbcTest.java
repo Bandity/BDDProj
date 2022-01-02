@@ -50,11 +50,23 @@ public class CategorieDaoJdbcTest {
         }
     }
 
+    public void chiffreAffairesTest(Connection connection){
+        try {
+            System.out.println("");
+            System.out.println("Chiffre Affaires en Fonction des Catégories.....");
+            new CategorieDaoImpl(connection).chiffreAffaires();
+        }
+        catch (DaoException e){
+            e.printStackTrace();
+        }
+    }
+
     public void allCategoriesTests(Connection connection){
         new CategorieDaoJdbcTest().findAllTest(connection);
         new CategorieDaoJdbcTest().creatTest(connection, 310, "SWAT");
         new CategorieDaoJdbcTest().updateTest(connection,310, "IDK");
         new CategorieDaoJdbcTest().deleteTest(connection, 310);
+        new CategorieDaoJdbcTest().chiffreAffairesTest(connection);
     }
 
     public static void main(String[] args) {

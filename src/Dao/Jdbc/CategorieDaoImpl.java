@@ -1,6 +1,7 @@
 package Dao.Jdbc;
 
 import Dao.DaoException;
+import Model.Agence;
 import Model.Categorie;
 import Model.Entity;
 import Model.Ville;
@@ -102,6 +103,25 @@ public class CategorieDaoImpl extends JdbcDao{
             System.out.println("Deleted.... ");
             System.out.println( categorie.getId() + " | " + categorie.getLibelle() + " |");
         } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    public void chiffreAffaires() throws DaoException{
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT c.libelleCategorie, max(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
+                "INNER JOIN Contrat cont on cont.idContrat = f.idContrat\n" +
+                "INNER JOIN Vehicule v on v.immatriculation = cont.immatriculation\n" +
+                "INNER JOIN Categorie c on v.idCategorie = c.idCategorie\n" +
+                "GROUP BY c.libelleCategorie\n" +
+                "ORDER BY Chiffre_Affaires DESC;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("libelleCategorie") + " | Chiffre Affaires : " + resultSet.getFloat("Chiffre_Affaires") + " |");
+            }
+        }catch (SQLException e ){
             throw new DaoException(e);
         }
     }
