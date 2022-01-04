@@ -152,12 +152,12 @@ public class AgenceDaoImpl extends JdbcDao{
 
     public void chiffreAffairesAnnee(int annee) throws DaoException{
         PreparedStatement statement = null;
-        String sqlReq = "SELECT DISTINCT a.idAgence, c.dateDeRetrait,c.dateDeRetour, MAX(f.montant) as Chiffre_Affaires FROM Facture as F\n" +
+        String sqlReq = "SELECT a.idAgence, c.dateDeRetrait,c.dateDeRetour, MAX(f.montant) as Chiffre_Affaires FROM Facture as F\n" +
                 "INNER JOIN contrat c on f.idContrat = c.idcontrat\n" +
                 "INNER JOIN Agence a on a.idAgence = c.idAgence\n" +
                 "WHERE EXTRACT(YEAR FROM c.datederetrait) = ?\n" +
                 "GROUP BY  a.idAgence, c.dateDeRetrait,c.dateDeRetour\n" +
-                "ORDER BY Chiffre_Affaires ;";
+                "ORDER BY Chiffre_Affaires DESC;";
         try {
             statement = connection.prepareStatement(sqlReq);
             statement.setInt(1,annee);
@@ -166,6 +166,23 @@ public class AgenceDaoImpl extends JdbcDao{
 
                 System.out.println("Agence ID : " + resultSet.getInt("idAgence") + " | Date de Retrait du Contrat : "+new java.sql.Date(resultSet.getDate("dateDeRetrait").getTime())+" | Date de Retour du Contrat : "+new java.sql.Date(resultSet.getDate("dateDeRetour").getTime())+" | Chiffre d'affaires : " +resultSet.getFloat("Chiffre_Affaires") +" |");            }
         }catch (SQLException e ){
+            throw new DaoException(e);
+        }
+    }
+
+    public void lastLocation() throws DaoException{
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT a.idAgence, c.dateDeRetrait FROM Facture as f\n" +
+                "INNER JOIN contrat c on f.idContrat = c.idcontrat\n" +
+                "INNER JOIN Agence a on c.idAgence = a.idAgence\n" +
+                "ORDER BY c.dateDeRetrait DESC LIMIT 1;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("idAgence")+" | " + new java.sql.Date(resultSet.getDate("dateDeRetrait").getTime()));
+            }
+        }catch (SQLException e) {
             throw new DaoException(e);
         }
     }

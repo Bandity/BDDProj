@@ -75,6 +75,16 @@ public class AgenceDaoJdbcTest {
         }
     }
 
+    public void lasLocationAgenceTest(Connection connection){
+        try {
+            System.out.println("");
+            System.out.println("Agence de la dernière facture......");
+            new AgenceDaoImpl(connection).lastLocation();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void allAgenceTests(Connection connection){
         try {
             new AgenceDaoJdbcTest().findAllTest(connection);
@@ -83,6 +93,7 @@ public class AgenceDaoJdbcTest {
             new AgenceDaoJdbcTest().deleteTest(connection, 340);
             new AgenceDaoJdbcTest().chiffreAffairesPourUnMoisTest(connection, new AgenceDaoImpl(connection).findById(3),01);
             new AgenceDaoJdbcTest().chiffreAffairesTest(connection, 2007);
+            new AgenceDaoJdbcTest().lasLocationAgenceTest(connection);
         } catch (DaoException e) {
             e.printStackTrace();
         }

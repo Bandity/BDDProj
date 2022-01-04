@@ -257,9 +257,18 @@ INNER JOIN Types t on v.idType = t.idType
 GROUP BY t.libelleType
 ORDER BY Chiffre_Affaires DESC;
 
-SELECT DISTINCT a.idAgence, c.dateDeRetrait,c.dateDeRetour, MAX(f.montant) as Chiffre_Affaires FROM Facture as F
+SELECT  a.idAgence, c.dateDeRetrait,c.dateDeRetour, MAX(f.montant) as Chiffre_Affaires FROM Facture as F
 INNER JOIN contrat c on f.idContrat = c.idcontrat
 INNER JOIN Agence a on a.idAgence = c.idAgence
 WHERE EXTRACT(YEAR FROM c.datederetrait) = 2007
 GROUP BY  a.idAgence, c.dateDeRetrait,c.dateDeRetour
 ORDER BY Chiffre_Affaires ;
+
+SELECT v.immatriculation, c.dateDeRetrait FROM Contrat as c
+INNER JOIN Vehicule v on c.immatriculation = v.immatriculation
+ORDER BY c.dateDeRetour DESC LIMIT 1;
+
+SELECT a.idAgence, c.dateDeRetrait , c.dateDeRetour FROM Facture as f
+INNER JOIN contrat c on f.idContrat = c.idcontrat
+INNER JOIN Agence a on c.idAgence = a.idAgence
+ORDER BY c.dateDeRetrait DESC LIMIT 1;

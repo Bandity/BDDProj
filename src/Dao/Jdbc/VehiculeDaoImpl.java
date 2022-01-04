@@ -176,6 +176,7 @@ public class VehiculeDaoImpl extends JdbcDao{
             throw new DaoException(e);
         }
     }
+
     public void vehiculesParMarque() throws DaoException{
         PreparedStatement statement = null;
         String sqlReq = "SELECT DISTINCT count(*) as NombreVehicules, m.nomMarque FROM Vehicule as v\n" +
@@ -187,6 +188,22 @@ public class VehiculeDaoImpl extends JdbcDao{
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 System.out.println(resultSet.getString("NombreVehicules")+" | " + resultSet.getString("nomMarque"));
+            }
+        }catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    public void lastLocation() throws DaoException{
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT v.immatriculation, c.dateDeRetrait FROM Contrat as c\n" +
+                "INNER JOIN Vehicule v on c.immatriculation = v.immatriculation\n" +
+                "ORDER BY c.dateDeRetrait DESC LIMIT 1;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("immatriculation")+" | " + new java.sql.Date(resultSet.getDate("dateDeRetrait").getTime()));
             }
         }catch (SQLException e) {
             throw new DaoException(e);

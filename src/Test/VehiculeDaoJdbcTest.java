@@ -59,13 +59,21 @@ public class VehiculeDaoJdbcTest {
     public void vehiculesParMarqueTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Vehicules par Marque");
+            System.out.println("Vehicules par Marque.....");
             new VehiculeDaoImpl(connection).vehiculesParMarque();
         }catch (DaoException e){
             e.printStackTrace();
         }
     }
-
+    public void lastLocationTest(Connection connection){
+        try {
+            System.out.println("");
+            System.out.println("Dernier Vehicule loué......");
+            new VehiculeDaoImpl(connection).lastLocation();
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
     public void allVehiculeTests(Connection connection){
         try {
             new VehiculeDaoJdbcTest().findAllTest(connection);
@@ -73,6 +81,7 @@ public class VehiculeDaoJdbcTest {
             new VehiculeDaoJdbcTest().updateTest(connection, "477-AE-307Q", (Date) new GregorianCalendar(2011, Calendar.FEBRUARY, 14).getTime(),"usée",11980.98f,5000.12f,(Marque) new MarqueDaoImpl(connection).findById(7),(Modele) new ModeleDaoImpl(connection).findById(1), (Categorie) new CategorieDaoImpl(connection).findById(4),(Types) new TypesDaoImpl(connection).findById(1),(Agence) new AgenceDaoImpl(connection).findById(7));
             new VehiculeDaoJdbcTest().deleteTest(connection, "477-AE-307Q");
             new VehiculeDaoJdbcTest().vehiculesParMarqueTest(connection);
+            new VehiculeDaoJdbcTest().lastLocationTest(connection);
         } catch (DaoException e) {
             e.printStackTrace();
         }
