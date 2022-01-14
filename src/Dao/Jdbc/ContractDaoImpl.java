@@ -47,7 +47,7 @@ public class ContractDaoImpl extends JdbcDao{
                 contrat.setKmRetour(resultSet.getFloat("kmRetour"));
                 Client client = (Client) new ClientDaoImpl(connection).findById(resultSet.getInt("idClient"));
                 Vehicule vehicule = (Vehicule) new VehiculeDaoImpl(connection).findById(resultSet.getString("immatriculation"));
-                Agence agence = (Agence) new AgenceDaoImpl(connection).findById(resultSet.getInt("idAgence"));
+                Agence agence = (Agence) new AgenceDaoImpl(connection).findById(resultSet.getInt("idAgenceDeRetour"));
                 contrat.setClient(client);
                 contrat.setVehicule(vehicule);
                 contrat.setAgence(agence);
@@ -77,7 +77,7 @@ public class ContractDaoImpl extends JdbcDao{
                 contrat.setKmRetour(resultSet.getInt("kmRetour"));
                 Client client = (Client) clientDao.findById(resultSet.getInt("idClient"));
                 Vehicule vehicule = (Vehicule) vehiculeDao.findById(resultSet.getString("immatriculation"));
-                Agence agence = (Agence) agenceDao.findById(resultSet.getInt("idAgence"));
+                Agence agence = (Agence) agenceDao.findById(resultSet.getInt("idAgenceDeRetour"));
                 contrat.setClient(client);
                 contrat.setVehicule(vehicule);
                 contrat.setAgence(agence);
@@ -92,7 +92,7 @@ public class ContractDaoImpl extends JdbcDao{
     public void create(Entity entity) throws DaoException {
         Contrat contrat = (Contrat) entity;
         PreparedStatement statement = null;
-        String sqlReq = "insert into Contrat(idContrat ,dateDeRetrait, dateDeRetour,kmRetrait,kmRetour,idClient,immatriculation,idAgence) values (?, ?,?,?,?,?,?,?)";
+        String sqlReq = "insert into Contrat(idContrat ,dateDeRetrait, dateDeRetour,kmRetrait,kmRetour,idClient,immatriculation,idAgenceDeRetour) values (?, ?,?,?,?,?,?,?)";
         try {
             statement = connection.prepareStatement(sqlReq);
             statement.setInt(1, contrat.getId());
@@ -116,7 +116,7 @@ public class ContractDaoImpl extends JdbcDao{
     public void update(Entity entity) throws DaoException {
         Contrat contrat = (Contrat) entity;
         PreparedStatement statement = null;
-        String sqlReq = "update Contrat set dateDeRetrait=?, dateDeRetour=?,kmRetrait=?,kmRetour=?,idClient=?,immatriculation=?,idAgence = ? WHERE idContrat = ?";
+        String sqlReq = "update Contrat set dateDeRetrait=?, dateDeRetour=?,kmRetrait=?,kmRetour=?,idClient=?,immatriculation=?,idAgenceDeRetour = ? WHERE idContrat = ?";
         try {
             statement = connection.prepareStatement(sqlReq);
             statement.setDate(1, new java.sql.Date(contrat.getDateDeRetrait().getTime()));
