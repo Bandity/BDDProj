@@ -123,12 +123,12 @@ public class AgenceDaoImpl extends JdbcDao{
         Agence agenceRequete = (Agence) entity;
         //Collection<Entity> agences = new ArrayList<>();
         PreparedStatement statement = null;
-        String sqlReq = "SELECT DISTINCT a.idAgence, a.idVille, a.nbEmployes, MAX(f.montant)as ChiffreAffairs, c.datederetrait FROM Contrat as c\n" +
-                "INNER JOIN Agence a on a.idAgence = c.idAgence\n" +
+        String sqlReq = "SELECT  a.idAgence, a.idVille, a.nbEmployes,c.dateDeRetrait, sum(f.montant) as ChiffreAffairs FROM Contrat as c\n" +
+                "INNER JOIN Agence a on a.idAgence = c.idAgenceDeRetour\n" +
                 "INNER JOIN Facture f on c.idContrat = f.idContrat\n" +
                 "WHERE EXTRACT(MONTH FROM c.datederetrait) = ? AND a.idAgence =?\n" +
-                "GROUP BY  a.idAgence, c.datederetrait, a.idVille, a.nbEmployes, a.idAgence\n" +
-                "ORDER BY ChiffreAffairs ;";
+                "GROUP BY  a.idAgence, c.dateDeRetrait, a.idVille, a.nbEmployes\n" +
+                "ORDER BY ChiffreAffairs DESC ;";
         try {
             statement = connection.prepareStatement(sqlReq);
             statement.setInt(1,mois);
@@ -151,16 +151,22 @@ public class AgenceDaoImpl extends JdbcDao{
     }
 
     public void chiffreAffairesAnnee(int annee) throws DaoException{
+        String datedebSTR = annee+"-01-01";
+        String datefinSTR = annee+"-12-31";
+        java.sql.Date datedeb= java.sql.Date.valueOf(datedebSTR);
+        java.sql.Date datefin= java.sql.Date.valueOf(datefinSTR);
+
         PreparedStatement statement = null;
-        String sqlReq = "SELECT a.idAgence, c.dateDeRetrait,c.dateDeRetour, MAX(f.montant) as Chiffre_Affaires FROM Facture as F\n" +
+        String sqlReq = "SELECT  a.idAgence, c.dateDeRetrait,c.dateDeRetour, SUM(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
                 "INNER JOIN contrat c on f.idContrat = c.idcontrat\n" +
-                "INNER JOIN Agence a on a.idAgence = c.idAgence\n" +
-                "WHERE EXTRACT(YEAR FROM c.datederetrait) = ?\n" +
+                "INNER JOIN Agence a on a.idAgence = c.idAgenceDeRetour\n" +
+                "WHERE c.datederetrait BETWEEN ? AND ?\n" +
                 "GROUP BY  a.idAgence, c.dateDeRetrait,c.dateDeRetour\n" +
-                "ORDER BY Chiffre_Affaires DESC;";
+                "ORDER BY Chiffre_Affaires DESC ;";
         try {
             statement = connection.prepareStatement(sqlReq);
-            statement.setInt(1,annee);
+            statement.setDate(1,datedeb);
+            statement.setDate(2,datefin);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
 
@@ -169,12 +175,28 @@ public class AgenceDaoImpl extends JdbcDao{
             throw new DaoException(e);
         }
     }
-
+    public void nombreVehiculesPlus2A15000Agence() throws DaoException {
+        PreparedStatement statement=null;
+        String sqlReq = "SELECT DISTINCT COUNT(v) as Nombre_De_Vehicules , a.idAgence FROM Agence as a\n" +
+                "INNER JOIN Vehicule v on a.idAgence = v.idAgence\n" +
+                "WHERE v.dateMiseEnCirculation < '2020-01-10' AND v.nbKilometres > 150000.00\n" +
+                "GROUP BY a.idAgence\n" +
+                "ORDER BY   Nombre_De_Vehicules DESC ;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println( "Agence ID : "+ resultSet.getInt("idAgence")+ " | " + resultSet.getInt("Nombre_De_Vehicules"));
+            }
+        }catch (SQLException e){
+            throw  new DaoException(e);
+        }
+    }
     public void lastLocation() throws DaoException{
         PreparedStatement statement = null;
         String sqlReq = "SELECT a.idAgence, c.dateDeRetrait FROM Facture as f\n" +
                 "INNER JOIN contrat c on f.idContrat = c.idcontrat\n" +
-                "INNER JOIN Agence a on c.idAgence = a.idAgence\n" +
+                "INNER JOIN Agence a on a.idAgence = c.idagencederetour\n" +
                 "ORDER BY c.dateDeRetrait DESC LIMIT 1;";
         try {
             statement = connection.prepareStatement(sqlReq);

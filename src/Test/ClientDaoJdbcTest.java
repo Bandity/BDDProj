@@ -2,8 +2,10 @@ package Test;
 
 import Connections.Jdbc.PostgresConnection;
 import Dao.DaoException;
+import Dao.Jdbc.AgenceDaoImpl;
 import Dao.Jdbc.ClientDaoImpl;
 import Dao.Jdbc.VilleDaoImpl;
+import Model.Agence;
 import Model.Client;
 import Model.Entity;
 import Model.Ville;
@@ -49,13 +51,22 @@ public class ClientDaoJdbcTest {
             e.printStackTrace();
         }
     }
-
+    public void clientPlusLocations(Connection connection, Agence entity, int annee){
+        try{
+            System.out.println("");
+            System.out.println("Le(s) client(s) ayant réalisé(s) le plus de locations pour une agence donnée et pour une année donnée........");
+            new ClientDaoImpl(connection).clientPlusLocations(entity, annee);
+        }catch (DaoException e){
+            e.printStackTrace();
+        }
+    }
     public void allClientTests(Connection connection){
         try {
             new ClientDaoJdbcTest().findAllTest(connection);
             new ClientDaoJdbcTest().creatTest(connection, 299, "Rabanadas Santos", "41 Rue des fleures", 85845, (Ville) new VilleDaoImpl(connection).findById(3));
             new ClientDaoJdbcTest().updateTest(connection,299, "Milho Mendes", "32 Rue des ave raras", 85123, (Ville) new VilleDaoImpl(connection).findById(3));
             new ClientDaoJdbcTest().deleteTest(connection, 299);
+            new ClientDaoJdbcTest().clientPlusLocations(connection, (Agence) new AgenceDaoImpl(connection).findById(3), 2021);
         } catch (DaoException e) {
             e.printStackTrace();
         }

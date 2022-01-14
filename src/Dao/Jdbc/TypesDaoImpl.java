@@ -107,7 +107,7 @@ public class TypesDaoImpl extends JdbcDao{
 
     public void chiffreAffaires() throws DaoException{
         PreparedStatement statement = null;
-        String sqlReq = "SELECT t.libelleType, max(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
+        String sqlReq = "SELECT t.libelleType, SUM(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
                 "INNER JOIN Contrat cont on cont.idContrat = f.idContrat\n" +
                 "INNER JOIN Vehicule v on v.immatriculation = cont.immatriculation\n" +
                 "INNER JOIN Types t on v.idType = t.idType\n" +

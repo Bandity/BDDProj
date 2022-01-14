@@ -53,7 +53,7 @@ public class CategorieDaoJdbcTest {
     public void chiffreAffairesTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Chiffre Affaires en Fonction des Catégories.....");
+            System.out.println("Le chiffre d’affaire par catégorie.....");
             new CategorieDaoImpl(connection).chiffreAffaires();
         }
         catch (DaoException e){

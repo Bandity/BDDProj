@@ -6,7 +6,9 @@ import Model.Types;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 public class VehiculeDaoImpl extends JdbcDao{
     private MarqueDaoImpl marqueDao;
@@ -196,14 +198,41 @@ public class VehiculeDaoImpl extends JdbcDao{
 
     public void lastLocation() throws DaoException{
         PreparedStatement statement = null;
-        String sqlReq = "SELECT v.immatriculation, c.dateDeRetrait FROM Contrat as c\n" +
+        String sqlReq = "SELECT v.immatriculation, c.dateDeRetrait, c.dateDeRetour FROM Contrat as c\n" +
                 "INNER JOIN Vehicule v on c.immatriculation = v.immatriculation\n" +
                 "ORDER BY c.dateDeRetrait DESC LIMIT 1;";
         try {
             statement = connection.prepareStatement(sqlReq);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                System.out.println(resultSet.getString("immatriculation")+" | " + new java.sql.Date(resultSet.getDate("dateDeRetrait").getTime()));
+                System.out.println(resultSet.getString("immatriculation")+" | " + new java.sql.Date(resultSet.getDate("dateDeRetrait").getTime())+" | " + new java.sql.Date(resultSet.getDate("dateDeRetour").getTime()));
+            }
+        }catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    public void locationParClientDateDuree(Entity cl, java.util.Date date, int daysDuration) throws  DaoException{
+        Client client = (Client)cl;
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        gregorianCalendar.setTime(date);
+        gregorianCalendar.add(Calendar.DAY_OF_YEAR, daysDuration);
+        java.util.Date formatedDate = gregorianCalendar.getTime();
+
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT v.immatriculation, c.dateDeRetrait ,c.dateDeRetour FROM Contrat c\n" +
+                "INNER JOIN Vehicule v on c.immatriculation = v.immatriculation\n" +
+                "INNER JOIN Client on c.idClient = client.idclient\n" +
+                "WHERE client.idClient =? AND c.dateDeRetrait = ? AND c.dateDeRetour = ? AND ( c.idAgenceDeRetour != v.idAgence) \n" +
+                "ORDER BY  c.dateDeRetrait DESC ;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setInt(1,client.getId());
+            statement.setDate(2,new Date(date.getTime()));
+            statement.setDate(3,new Date(formatedDate.getTime()));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString("immatriculation")+" | " + new Date(resultSet.getDate("dateDeRetrait").getTime())+" | " + new Date(resultSet.getDate("dateDeRetour").getTime()));
             }
         }catch (SQLException e) {
             throw new DaoException(e);

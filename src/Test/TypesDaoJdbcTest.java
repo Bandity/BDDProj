@@ -53,7 +53,7 @@ public class TypesDaoJdbcTest {
     public void chiffreAffairesTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Chiffre Affaires en Fonction des Types.....");
+            System.out.println("Le chiffre d’affaire par type.....");
             new TypesDaoImpl(connection).chiffreAffaires();
         }
         catch (DaoException e){
@@ -63,7 +63,7 @@ public class TypesDaoJdbcTest {
 
     public void allTypesTests(Connection connection){
         new TypesDaoJdbcTest().findAllTest(connection);
-        new TypesDaoJdbcTest().creatTest(connection, 312, "Querosene");
+        new TypesDaoJdbcTest().creatTest(connection, 312, "Kerosene");
         new TypesDaoJdbcTest().updateTest(connection, 312, "Gasoline 98");
         new TypesDaoJdbcTest().deleteTest(connection, 312);
         new TypesDaoJdbcTest().chiffreAffairesTest(connection);

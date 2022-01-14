@@ -109,7 +109,7 @@ public class CategorieDaoImpl extends JdbcDao{
 
     public void chiffreAffaires() throws DaoException{
         PreparedStatement statement = null;
-        String sqlReq = "SELECT c.libelleCategorie, max(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
+        String sqlReq = "SELECT c.libelleCategorie, sum(f.montant) as Chiffre_Affaires FROM Facture as f\n" +
                 "INNER JOIN Contrat cont on cont.idContrat = f.idContrat\n" +
                 "INNER JOIN Vehicule v on v.immatriculation = cont.immatriculation\n" +
                 "INNER JOIN Categorie c on v.idCategorie = c.idCategorie\n" +

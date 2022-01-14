@@ -58,7 +58,7 @@ public class AgenceDaoJdbcTest {
         }
         try {
             System.out.println("");
-            System.out.println("Chiffre d'affaires d'une agence specifique et un mois........");
+            System.out.println("Le chiffre d’affaire d’une agence donnée pour un mois donné.........");
             new AgenceDaoImpl(connection).chiffreAffairesPourUnMois(entity, mois);
         } catch (DaoException e){
             e.printStackTrace();
@@ -68,17 +68,26 @@ public class AgenceDaoJdbcTest {
     public void chiffreAffairesTest(Connection connection,int annee){
         try {
             System.out.println("");
-            System.out.println("Chiffre d'affaires des agences d'un année specifique......");
+            System.out.println("Le chiffre d’affaire pour une année donnée pour chacune des agences.....");
             new AgenceDaoImpl(connection).chiffreAffairesAnnee(annee);
         } catch (DaoException e) {
             e.printStackTrace();
         }
     }
-
-    public void lasLocationAgenceTest(Connection connection){
+    public void vehicule2ans150KAgenceTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Agence de la dernière facture......");
+            System.out.println("Le nombre de véhicule(s) de plus de 2 ans et de plus de 150 000 km pour chacune des agences ......");
+            new AgenceDaoImpl(connection).nombreVehiculesPlus2A15000Agence();
+        }catch (DaoException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void lastLocationAgenceTest(Connection connection){
+        try {
+            System.out.println("");
+            System.out.println("L’établissement de la facture pour la location précédente.....");
             new AgenceDaoImpl(connection).lastLocation();
         } catch (DaoException e) {
             e.printStackTrace();
@@ -91,9 +100,10 @@ public class AgenceDaoJdbcTest {
             new AgenceDaoJdbcTest().creatTest(connection, 340, 1000, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().updateTest(connection,340, 100, (Ville) new VilleDaoImpl(connection).findById(1));
             new AgenceDaoJdbcTest().deleteTest(connection, 340);
-            new AgenceDaoJdbcTest().chiffreAffairesPourUnMoisTest(connection, new AgenceDaoImpl(connection).findById(3),01);
-            new AgenceDaoJdbcTest().chiffreAffairesTest(connection, 2007);
-            new AgenceDaoJdbcTest().lasLocationAgenceTest(connection);
+            new AgenceDaoJdbcTest().chiffreAffairesPourUnMoisTest(connection, new AgenceDaoImpl(connection).findById(3),05);
+            new AgenceDaoJdbcTest().chiffreAffairesTest(connection, 2021);
+            new AgenceDaoJdbcTest().vehicule2ans150KAgenceTest(connection);
+            new AgenceDaoJdbcTest().lastLocationAgenceTest(connection);
         } catch (DaoException e) {
             e.printStackTrace();
         }

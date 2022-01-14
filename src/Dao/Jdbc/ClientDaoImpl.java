@@ -1,6 +1,7 @@
 package Dao.Jdbc;
 
 import Dao.DaoException;
+import Model.Agence;
 import Model.Client;
 import Model.Entity;
 import Model.Ville;
@@ -121,4 +122,36 @@ public class ClientDaoImpl extends JdbcDao{
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-    }}
+    }
+
+    public void clientPlusLocations(Entity entity, int annee) throws DaoException {
+        Agence agence= (Agence) entity;
+        String datedebSTR = annee+"-01-01";
+        String datefinSTR = annee+"-12-31";
+        java.sql.Date datedeb= java.sql.Date.valueOf(datedebSTR);
+        java.sql.Date datefin= java.sql.Date.valueOf(datefinSTR);
+
+        PreparedStatement statement = null;
+        String sqlReq = "SELECT c.nomClient, count(idContrat) as Nombre_Contrats\n" +
+                "FROM Contrat cont\n" +
+                "INNER JOIN Client c on c.idClient = cont.idClient\n" +
+                "INNER JOIN Agence a on a.idAgence = cont.idAgenceDeRetour\n" +
+                "WHERE a.idAgence = ? AND cont.dateDeRetrait BETWEEN ? and ? \n" +
+                "GROUP BY c.idclient\n" +
+                "ORDER BY Nombre_Contrats desc;";
+        try {
+            statement = connection.prepareStatement(sqlReq);
+            statement.setInt(1, agence.getId());
+            statement.setDate(2 ,datedeb);
+            statement.setDate(3 ,datefin);
+
+            ResultSet resultSet =statement.executeQuery();
+            while (resultSet.next()){
+
+                System.out.println(resultSet.getString("nomClient") + " | "+ resultSet.getInt("Nombre_Contrats"));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+}

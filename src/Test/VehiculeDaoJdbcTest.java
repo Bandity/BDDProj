@@ -59,7 +59,7 @@ public class VehiculeDaoJdbcTest {
     public void vehiculesParMarqueTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Vehicules par Marque.....");
+            System.out.println("Le nombre de véhicules pour chaque marque.....");
             new VehiculeDaoImpl(connection).vehiculesParMarque();
         }catch (DaoException e){
             e.printStackTrace();
@@ -68,9 +68,20 @@ public class VehiculeDaoJdbcTest {
     public void lastLocationTest(Connection connection){
         try {
             System.out.println("");
-            System.out.println("Dernier Vehicule loué......");
+            System.out.println("Le retour du véhicule loué précédemment......");
             new VehiculeDaoImpl(connection).lastLocation();
         } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void locationParClientDateDureeTest(Connection connection, Client client, Date date, int daysDuration){
+        try {
+            System.out.println("");
+            System.out.println("La location d’une voiture par un client donné, à une date et pour une durée données. L’agence\n" +
+                    "de retour devra être différente de l’agence de départ dans laquelle se situe le véhicule.....");
+            new VehiculeDaoImpl(connection).locationParClientDateDuree(client, date, daysDuration);
+        }catch (DaoException e){
             e.printStackTrace();
         }
     }
@@ -82,6 +93,7 @@ public class VehiculeDaoJdbcTest {
             new VehiculeDaoJdbcTest().deleteTest(connection, "477-AE-307Q");
             new VehiculeDaoJdbcTest().vehiculesParMarqueTest(connection);
             new VehiculeDaoJdbcTest().lastLocationTest(connection);
+            new VehiculeDaoJdbcTest().locationParClientDateDureeTest(connection,(Client) new ClientDaoImpl(connection).findById(1), (Date) new GregorianCalendar(2021, Calendar.NOVEMBER, 19).getTime(),31);
         } catch (DaoException e) {
             e.printStackTrace();
         }
