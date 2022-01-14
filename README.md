@@ -4,7 +4,10 @@
 ```
   Pour faire la base tout d'abord j'ai commencé par faire le script sql pour ne pas avoir besoin qu'à chaque fois 
   que je veux modifier un truc je doit me connecter et comme ça je pouvais lancer de script et faire le requêtes 
-  de dans pour voir dans IntelliJ le rendu de la requête.
+  dans pour voir dans IntelliJ le rendu de la requête mais aussi si je me plantais dans les données je pouvais
+  les rechargées. J'ai commencé par faire les drop tables if exist et ensuite j'ai commencé de la plus facil
+  sans foreign keys à celle avec le plus de foreign keys.
+
 
 ```
 
